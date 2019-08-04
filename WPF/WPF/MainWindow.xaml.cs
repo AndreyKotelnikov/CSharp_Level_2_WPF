@@ -20,9 +20,18 @@ namespace WPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        DataNumber dataNumber = new DataNumber();
+
         public MainWindow()
         {
             InitializeComponent();
+
+            list.ItemsSource = dataNumber.col;
+
+            btnAdd.Click += delegate { dataNumber.AddItem(); };
+            btnSort.Click += delegate { dataNumber.SortItems(); };
         }
+
+        
     }
 }
