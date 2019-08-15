@@ -1,12 +1,56 @@
-﻿<Window x:Class="WPF_Employees.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_Employees"
+        x:Class="WPF_Employees.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <local:DepartmentAddNullConverter x:Key="DepartmentNullConverter"/>
+        <local:NullValueConverter x:Key="NullValueConverter" />
+        <ControlTemplate TargetType="Button" x:Key="buttonTemplate">
+            <Border Name="RootElement">
+                <Border.Background>
+                    <SolidColorBrush x:Name="BorderBrush" Color="#FF707070"/>
+                </Border.Background>
+
+                <Grid Margin="1" >
+                    <Grid.Background>
+                        <SolidColorBrush x:Name="ButtonBackground" Color="#FFDDDDDD"/>
+                    </Grid.Background>
+                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="4,0,4,0"/>
+                </Grid>
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal"/>
+                        <VisualState x:Name="MouseOver">
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Color" To="Red" SpeedRatio="3"/>
+                            </Storyboard>
+                        </VisualState>
+                        <VisualState x:Name="Pressed">
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Color" To="Green" SpeedRatio="3"/>
+                            </Storyboard>
+                        </VisualState>
+
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+            </Border>
+        </ControlTemplate>
+        <Color x:Key="buttonBackGroundColor">#FFDDDDDD</Color>
+        <Color x:Key="buttonBorderColor">#FF707070</Color>
+
+    </Window.Resources>
+
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="149*"/>
+            <RowDefinition Height="270*"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="200"/>
@@ -16,26 +60,67 @@
                   VerticalAlignment="Stretch" 
                   AutoGenerateColumns="False"
                   CanUserAddRows="False"
-                  CanUserDeleteRows="False"
-                  FrozenColumnCount="">
+                  CanUserDeleteRows="False" 
+                  Grid.RowSpan="2"
+                  ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=Repo.ListEmployees}"
+                  Foreground ="DarkBlue"
+                  Style="{x:Null}"
+                  >
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Path= ID}" IsReadOnly="True"></DataGridTextColumn>
-                <DataGridTextColumn Header="Name" Binding="{Binding Path= Name}" IsReadOnly="False"></DataGridTextColumn>
-                <DataGridTextColumn Header="Age" Binding="{Binding Path= Age}" IsReadOnly="False"></DataGridTextColumn>
+                <DataGridTextColumn Header="ID" Binding="{Binding ID}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" IsReadOnly="False"/>
+                <DataGridTextColumn Header="Age" Binding="{Binding Age}" IsReadOnly="False"/>
                 <DataGridComboBoxColumn  x:Name="gridEmployeesComboBox"  
                                          Header="Department" 
                                          IsReadOnly="False" 
-                                         SelectedValueBinding="{Binding Path= Department}" 
-                                         DisplayMemberPath="Name">
+                                         ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=Repo.ListDepartments}"
+                                         SelectedValueBinding="{Binding Department}" 
+                                         DisplayMemberPath="Name"
+                                          >
                 </DataGridComboBoxColumn>
             </DataGrid.Columns>
         </DataGrid>
 
 
-        <StackPanel Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
-            <Button Content="Обновить" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10" Click="Button_Click_Refresh"/>
-            <Button Content="Новый сотрудник" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10" Click="Button_Click_New_Emp"/>
-            <Button Content="Новый департамент" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10" Click="Button_Click_New_Dep"/>
+        <StackPanel Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="140"  Style="{x:Null}">
+            <Button Content="Обновить" Style="{StaticResource MyButtonsStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10" Click="Button_Click_Refresh"/>
+            <Button Content="Новый сотрудник" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10" Click="Button_Click_New_Emp" Style="{StaticResource MyButtonsStyle}">
+                <Button.BorderBrush>
+                    <SolidColorBrush Color="{StaticResource buttonBorderColor}"/>
+                </Button.BorderBrush>
+                <Button.Background>
+                    <SolidColorBrush Color="{StaticResource buttonBackGroundColor}"/>
+                </Button.Background>
+            </Button>
+            <Button Content="Новый департамент" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10" Click="Button_Click_New_Dep" Style="{StaticResource MyButtonsStyle}" />
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Style="{x:Null}">
+            <Label  Style="{StaticResource MyWindowsStyle}" Content="Отбор по департаменту:" HorizontalAlignment="Stretch" Margin="10, 10, 10, 0" HorizontalContentAlignment ="Center"/>
+            <ComboBox 
+                x:Name="selectionByDep" 
+                HorizontalAlignment="Stretch" 
+                Margin="10, 0, 10, 10" 
+                SelectionChanged="SelectionByDep_SelectionChanged"
+                Style="{StaticResource MyWindowsStyle}"
+                ItemsSource=
+                "{
+                    Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, 
+                    Path=Repo.ListDepartments, 
+                    Converter={StaticResource DepartmentNullConverter},
+                    ConverterParameter='(Пусто)'
+                }" 
+                DisplayMemberPath="Name"
+                >
+            </ComboBox>
+            <Button x:Name="btnSelectOff" 
+                    Template="{StaticResource buttonTemplate}" 
+                    Style="{StaticResource MyWindowsStyle}" 
+                    Content="Отключить отбор" 
+                    HorizontalAlignment="Stretch" 
+                    Margin="10" 
+                    Visibility="Hidden"  
+                    Click="Button_Click_Cancel_Selection"/>
         </StackPanel>
 
     </Grid>

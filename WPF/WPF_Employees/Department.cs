@@ -31,13 +31,6 @@ namespace WPF_Employees
             countID++;
             Name = name;
         }
-        /// <summary>
-        /// Переопределение метода
-        /// </summary>
-        /// <returns>Возвращает представление экземпляра класса в виде строки</returns>
-        public override string ToString()
-        {
-            return $"{Name} (id={ID})";
-        }
+        
     }
 }

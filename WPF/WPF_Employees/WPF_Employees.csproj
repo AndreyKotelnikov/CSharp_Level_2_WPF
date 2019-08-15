@@ -55,9 +55,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DepartmentAddNullConverter.cs" />
     <Compile Include="NewDepartmentWindow.xaml.cs">
       <DependentUpon>NewDepartmentWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NullValueConverter.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="WindowNewEmployee.xaml.cs">
       <DependentUpon>WindowNewEmployee.xaml</DependentUpon>

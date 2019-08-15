@@ -35,6 +35,8 @@ namespace WPF_Employees
         public NewDepartmentWindow(ObservableCollection<Department> dep)
         {
             InitializeComponent();
+            
+            Style = (Style)FindResource("MyWindowsStyle");
 
             departments = dep;
             Department newDep = new Department(string.Empty);

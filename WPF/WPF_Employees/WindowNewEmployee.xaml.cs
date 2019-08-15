@@ -38,6 +38,8 @@ namespace WPF_Employees
         {
             InitializeComponent();
 
+            Style = (Style)FindResource("MyWindowsStyle");
+
             Employee newEmp = new Employee();
             newListEmp.Add(newEmp);
             gridNewEmployee.ItemsSource = newListEmp;
