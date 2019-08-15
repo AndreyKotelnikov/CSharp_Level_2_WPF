@@ -54,7 +54,11 @@ namespace WPF_Employees
             gridEmployeesComboBox.ItemsSource = Repo.ListDepartments;
             
         }
-
+        /// <summary>
+        /// Обновляет список департаментов в списке выбора при отборе по департаменту
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ListDepartments_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             Binding bind = new Binding();
@@ -112,6 +116,8 @@ namespace WPF_Employees
             
             gridEmployees.ItemsSource = Repo.ListEmployees.Where(emp => emp.Department == selectedDep);
 
+            gridEmployees.IsReadOnly = true;
+
             btnSelectOff.Visibility = Visibility.Visible;
 
         }
@@ -122,6 +128,8 @@ namespace WPF_Employees
             selectionByDep.SelectedValue = null;
             
             gridEmployees.ItemsSource = Repo.ListEmployees;
+
+            gridEmployees.IsReadOnly = false;
 
             btnSelectOff.Visibility = Visibility.Hidden;
         }

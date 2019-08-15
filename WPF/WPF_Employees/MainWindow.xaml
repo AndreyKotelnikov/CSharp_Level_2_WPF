@@ -48,8 +48,8 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="149*"/>
-            <RowDefinition Height="270*"/>
+            <RowDefinition Height="176*"/>
+            <RowDefinition Height="243*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -82,7 +82,7 @@
         </DataGrid>
 
 
-        <StackPanel Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="140"  Style="{x:Null}">
+        <StackPanel Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{x:Null}">
             <Button Content="Обновить" Style="{StaticResource MyButtonsStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10" Click="Button_Click_Refresh"/>
             <Button Content="Новый сотрудник" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10" Click="Button_Click_New_Emp" Style="{StaticResource MyButtonsStyle}">
                 <Button.BorderBrush>

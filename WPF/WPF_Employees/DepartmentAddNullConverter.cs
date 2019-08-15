@@ -9,6 +9,9 @@ using System.Windows.Data;
 
 namespace WPF_Employees
 {
+    /// <summary>
+    /// Добавляет в начало коллекции элемент со значением Null 
+    /// </summary>
     public class DepartmentAddNullConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

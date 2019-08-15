@@ -8,6 +8,9 @@ using System.Windows.Data;
 
 namespace WPF_Employees
 {
+    /// <summary>
+    /// Заменяет отображение Null-элемента на значение из параметра "parameter"
+    /// </summary>
     public class NullValueConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
