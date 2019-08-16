@@ -5,7 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using WPF_MVVM_Employees.Data;
 
 namespace WPF_MVVM_Employees.ViewModel
@@ -49,6 +51,7 @@ namespace WPF_MVVM_Employees.ViewModel
         {
             Items = CollectionViewSource.GetDefaultView(Employee.GetEmployees());
             DepItems = CollectionViewSource.GetDefaultView(Department.GetDepartments());
+            isSellectByDep = false;
             Items.Filter = FilterEmployee;
         }
 
@@ -61,10 +64,36 @@ namespace WPF_MVVM_Employees.ViewModel
             {
                 result = false;
             }
-            return result;
+            if (isSellectByDep == true && current.DepID != SellectDep?.ID)
+            {
+                result = false;
+            }
+                return result;
         }
 
+        private bool isSellectByDep;
 
+        public Department SellectDep
+        {
+            get { return (Department)GetValue(SellectDepProperty); }
+            set { SetValue(SellectDepProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SellectDep.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SellectDepProperty =
+            DependencyProperty.Register("SellectDep", typeof(Department), typeof(EmployeesViewModel), new PropertyMetadata(null, SellectedDepChanged));
+
+        private static void SellectedDepChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var current = d as EmployeesViewModel;
+
+            if (current != null)
+            {
+                current.isSellectByDep = true;
+                current.Items.Filter = null;
+                current.Items.Filter = current.FilterEmployee;
+            }
+        }
 
         public ICollectionView DepItems
         {
@@ -75,6 +104,33 @@ namespace WPF_MVVM_Employees.ViewModel
         // Using a DependencyProperty as the backing store for DepItems.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DepItemsProperty =
             DependencyProperty.Register("DepItems", typeof(ICollectionView), typeof(EmployeesViewModel), new PropertyMetadata(null));
+
+        public ICommand CleanFilterText
+        {
+            get {
+                return new DelegateCommand((obj) =>
+                {
+                    FilterText = string.Empty;
+                },
+                (obj) => FilterText != string.Empty); 
+                }
+        }
+
+        public ICommand CleanSellectDep
+        {
+            get
+            {
+                return new DelegateCommand((obj) =>
+                {
+                    SellectDep = null;
+                    isSellectByDep = false;
+                    Items.Filter = null;
+                    Items.Filter = FilterEmployee;
+                },
+                (obj) => isSellectByDep == true);
+            }
+        }
+
 
 
     }
