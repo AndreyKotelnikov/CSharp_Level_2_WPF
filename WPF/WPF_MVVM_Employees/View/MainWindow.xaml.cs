@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,8 +13,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPF_MVVM_Employees.ViewModel;
 
-namespace WPF_MVVM_Employees
+namespace WPF_MVVM_Employees.View
 {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
@@ -23,7 +25,6 @@ namespace WPF_MVVM_Employees
         public MainWindow()
         {
             InitializeComponent();
-            
         }
     }
 }

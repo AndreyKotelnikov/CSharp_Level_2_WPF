@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using WPF_MVVM_Employees.View;
 using System.Windows;
 
 namespace WPF_MVVM_Employees
