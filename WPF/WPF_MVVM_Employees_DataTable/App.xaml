@@ -1,0 +1,37 @@
+﻿<Application x:Class="WPF_MVVM_Employees_DataTable.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:WPF_MVVM_Employees_DataTable"
+             xmlns:vm="clr-namespace:WPF_MVVM_Employees_DataTable.ViewModels"
+             xmlns:v="clr-namespace:WPF_MVVM_Employees_DataTable.Views"
+             ShutdownMode="OnMainWindowClose"
+             StartupUri="Views\MainWindow.xaml">
+    <Application.Resources>
+        <vm:EmpViewModel x:Key="EmpViewModel"/>
+        <v:NewEmpWindow x:Key="NewEmpWindow"/>
+        <v:NewDepWindow x:Key="NewDepWindow"/>
+        <v:EditDepWindow x:Key="EditDepWindow"/>
+        <v:EnumConverter x:Key="EnumConverter"/>
+
+
+        <Style x:Key="BaseStyle" TargetType="FrameworkElement">
+            <Setter Property="Control.FontFamily" Value="Calibri"></Setter>
+            <Setter Property="Control.FontSize" Value="15"></Setter>
+            <Setter Property="Control.Foreground" Value="DarkBlue"></Setter>
+            <Setter Property="Control.FontWeight" Value="Bold"></Setter>
+            <Setter Property="Control.Padding" Value="5"></Setter>
+            <Setter Property="Control.Margin" Value="5"></Setter>
+            <Setter Property="Control.MinWidth" Value="170"></Setter>
+            <Setter Property="Control.HorizontalContentAlignment" Value="Center"></Setter>
+            <Setter Property="Control.VerticalContentAlignment" Value="Center"></Setter>
+        </Style>
+
+        <Style x:Key="IsEnabledVisibilityStyle" TargetType="FrameworkElement" BasedOn="{StaticResource BaseStyle}">
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter Property="Visibility" Value="Hidden"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Application.Resources>
+</Application>
