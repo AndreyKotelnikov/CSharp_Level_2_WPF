@@ -624,16 +624,12 @@ namespace WPF_MVVM_Employees_DataTable.ViewModels
                 }
                 catch (SqlException ex)
                 {
-                    MessageBox.Show(ex.Message, "Ошибка базы данных");
-                    if (TypeOfUpdateData == TypeOfUpdateData.automatic) { RejectChanges(GetType().GetProperty(item.Key).GetValue(this) as DataView); }
+                    ExceptionHandler(ex, methodName, item.Key, "Ошибка базы данных");
                     return false;
                 }
                 catch (Exception ex)
                 {
-                    Exception innerEx = GetInnerException(ex);
-                    MessageBox.Show(innerEx.Message, $"Class:{dataSources[TypeOfDataSource].Name.ToString()}, Method:{methodName}, Table:{item.Key}");
-
-                    if (TypeOfUpdateData == TypeOfUpdateData.automatic) { RejectChanges(GetType().GetProperty(item.Key).GetValue(this) as DataView); }
+                    ExceptionHandler(ex, methodName, item.Key);
                     return false;
                 }
                 if (dv != null)
@@ -647,6 +643,21 @@ namespace WPF_MVVM_Employees_DataTable.ViewModels
                 }
             }
             return true;
+        }
+
+        /// <summary>
+        /// Показывает пользователю сообщение об ошибке и его детали
+        /// </summary>
+        /// <param name="ex">Объект с информацией об ошибке</param>
+        /// <param name="methodName">Имя метода, при выполнении которого появилась ошибка</param>
+        /// <param name="tableName">Имя таблицы, при обновлении данных в которой появилась ошибка</param>
+        /// <param name="caption">Заголовок окна, в котором будут отображаться детали ошибки</param>
+        private void ExceptionHandler(Exception ex, string methodName, string tableName, string caption = null)
+        {
+            Exception innerEx = GetInnerException(ex);
+            MessageBox.Show(innerEx.Message, caption ?? $"Class:{dataSources[TypeOfDataSource].Name.ToString()}, Method:{methodName}, Table:{tableName}");
+
+            if (TypeOfUpdateData == TypeOfUpdateData.automatic) { RejectChanges(GetType().GetProperty(tableName).GetValue(this) as DataView); }
         }
 
         /// <summary>
